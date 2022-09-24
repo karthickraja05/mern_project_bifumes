@@ -1,0 +1,7 @@
+client
+  npx create-react-app .
+
+
+
+
+server
