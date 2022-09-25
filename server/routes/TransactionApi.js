@@ -4,7 +4,7 @@ import Transaction from "../models/TransactionModel.js";
 const router = Router();
 
 router.get('/',async (req,res)=>{
-  let transactionsData = await Transaction.find({});
+  let transactionsData = await Transaction.find({}).sort({createdAt: -1});
   return res.json({
     status_code: '1',
     message: 'Success',
