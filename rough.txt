@@ -8,3 +8,16 @@ server
   npm init -y
   npm install express
   
+
+important packages
+express
+nodemon
+jsonwebtoken
+mongoose
+bcryptjs
+dotenv
+cookie-parser
+cors  
+
+
+
