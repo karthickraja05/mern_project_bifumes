@@ -20,7 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/',(req,res)=>{
-  res.send("<h1>Welcom to mern learn");
+  res.send("<h1>Welcom to mern learn</h1>");
 });
 
 //Routes Merge to our app

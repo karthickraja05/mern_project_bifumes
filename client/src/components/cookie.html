@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cookies.</title>
+    <script>
+      function setCookies(cname, cvalue, exdays)
+      {
+        let d = new Date();
+        d.setTime(d.getTime + (exdays*24*60*60*1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookies = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+      function getCookies(uname)
+      {
+        let name = uname+"=";
+        let decodedCookies = decodedURIComponent(document.cookies);
+        let ca = decodedCookies.split(";");
+        for (i=0; i<ca.length; i++)
+        {
+          let a = ca[i];
+          while (a.charAt(0)==" ")
+          {
+            a.substring(1);
+            //console.log(a.substring(1));
+          }
+            //console.log(a.indexOf(name));
+            if (a.indexOf(name)==0)
+              {
+                return a.substring(name.length, a.length);
+              }
+        }
+        return "";
+      }
+      function checkCookies()
+      {
+        let user = getCookies("username");
+        if (user!="")
+        {
+          alert("Welcome"+user);
+        }
+        else
+        {
+          user = prompt("Please enter your name:")
+          if (user!="" && user!=null)
+          {
+            setCookies("username", user, 2);
+          }
+        }
+      }
+    </script>
+  </head>
+  <body onload="checkCookies()"></body>
+</html>
