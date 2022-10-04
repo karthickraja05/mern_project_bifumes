@@ -5,6 +5,8 @@ import {useState,useEffect} from 'react';
 import Container from '@mui/material/Container';
 
 
+
+
 function App() {
 
   const [transactions,setTrasaction] = useState([]);
@@ -26,7 +28,10 @@ function App() {
         <FormCard1 
           getAllData={getAllData}
         />
-        <ReactTable rows={transactions} />
+        <ReactTable 
+          rows={transactions}
+          getAllData={getAllData}
+        />
       </Container>
     </div>
   );

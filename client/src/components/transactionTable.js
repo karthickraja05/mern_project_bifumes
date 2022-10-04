@@ -18,6 +18,8 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import moment from 'moment';
 import Typography from '@mui/material/Typography';
+import EditSharpIcon from '@mui/icons-material/EditSharp';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -100,7 +102,7 @@ TablePaginationActions.propTypes = {
 //   createData('Oreo', 437, 18.0),
 // ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
-export default function CustomPaginationActionsTable({rows}) {
+export default function CustomPaginationActionsTable({rows,getAllData}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -117,6 +119,17 @@ export default function CustomPaginationActionsTable({rows}) {
     setPage(0);
   };
 
+  async function remove(_id){
+    if(! window.confirm('Are you sure you want delete?')) return "";
+    let res = await fetch(`http://localhost:4000/transaction/${_id}`,{
+      method: 'DELETE'
+    });
+    if(res.ok){
+      getAllData();
+      alert("Transaction Deleted Successfully");
+    }
+  }
+
   return (
     <>
     <Typography variant="h6" sx={{marginTop:5}}>
@@ -126,9 +139,9 @@ export default function CustomPaginationActionsTable({rows}) {
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">
+            {/* <TableCell align="center">
               ID
-            </TableCell>
+            </TableCell> */}
             <TableCell align="center">
               Amount
             </TableCell>
@@ -138,6 +151,9 @@ export default function CustomPaginationActionsTable({rows}) {
             <TableCell align="center">
               Date
             </TableCell>
+            <TableCell align="center">
+              Action
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -146,9 +162,9 @@ export default function CustomPaginationActionsTable({rows}) {
             : rows
           ).map((row,index) => (
             <TableRow key={index}>
-              <TableCell align="center">
+              {/* <TableCell align="center">
                 {++index}
-              </TableCell>
+              </TableCell> */}
               <TableCell align="center">
                 $ {row.amount}
               </TableCell>
@@ -157,6 +173,14 @@ export default function CustomPaginationActionsTable({rows}) {
               </TableCell>
               <TableCell align="center">
               { moment(row.date).format('MM/DD/YYYY') }
+              </TableCell>
+              <TableCell align="center">
+              <IconButton aria-label="edit" color="primary">
+                <EditSharpIcon/>
+              </IconButton>
+              <IconButton aria-label="delete" color="warning" onClick={()=> remove(row._id)}>
+                <DeleteIcon/>
+              </IconButton>
               </TableCell>
             </TableRow>
           ))}

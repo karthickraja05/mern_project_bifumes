@@ -22,6 +22,14 @@ router.post('/',async (req,res)=>{
   });
 });
 
+router.delete('/:id',async (req,res)=>{
+  await Transaction.findByIdAndDelete({_id:req.params.id});
+  return res.json({
+    status_code: '1',
+    message: 'Success'
+  });
+});
+
 
 
 export default router;
