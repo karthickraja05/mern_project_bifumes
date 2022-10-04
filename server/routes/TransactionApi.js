@@ -22,6 +22,15 @@ router.post('/',async (req,res)=>{
   });
 });
 
+router.patch('/',async (req,res)=>{
+  const {_id,amount,description,date} = req.body;
+  await Transaction.findOneAndUpdate({_id},{amount,description,date});
+  return res.json({
+    status_code: '1',
+    message: 'Success'
+  });
+});
+
 router.delete('/:id',async (req,res)=>{
   await Transaction.findByIdAndDelete({_id:req.params.id});
   return res.json({

@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import moment from 'moment';
 import Button from '@mui/material/Button';
 
@@ -15,13 +15,24 @@ import Button from '@mui/material/Button';
 const initStateVal = {
   amount : 0,
   description: '',
-  date: '10/04/2022'
+  date: new Date()
 };
 
+let edit = false;
 
-export default function BasicCard({getAllData}) {
+export default function BasicCard({getAllData,editTransaction,setEditTransaction}) {
   const [form,setForm] = useState(initStateVal);
   
+  
+  useEffect(()=>{
+    if(Object.keys(editTransaction).length !== 0){
+      edit = true;
+      setForm(editTransaction);
+    }else{
+      edit = false;
+    }
+    console.log(editTransaction);
+  },[editTransaction])
 
   function handleInput(e){
     setForm({...form,[e.target.name]:e.target.value});
@@ -39,8 +50,9 @@ export default function BasicCard({getAllData}) {
   }
 
   async function updateData(){
+    let method = Object.keys(editTransaction).length ? 'PATCH' : 'POST';
     let res = await fetch('http://localhost:4000/transaction',{
-      method: "POST",
+      method,
       body: JSON.stringify(form),
       headers: {
         'Accept': 'application/json',
@@ -52,6 +64,11 @@ export default function BasicCard({getAllData}) {
       setForm(initStateVal);
       await getAllData();
     }
+  }
+
+  function setNew(){
+    setEditTransaction({});
+    setForm(initStateVal);
   }
 
   return (
@@ -72,7 +89,14 @@ export default function BasicCard({getAllData}) {
             renderInput={(params) => <TextField size="small" {...params} />}
           />
         </LocalizationProvider>
-        <Button type="submit" variant="contained" sx={{ marginLeft: 5 }}>Submit</Button>
+        <Button type="submit" variant="contained" sx={{ marginLeft: 5 }}>
+          { Object.keys(editTransaction).length > 0 ? 'Update' : 'Submit'}
+        </Button>
+        { Object.keys(editTransaction).length > 0 && 
+        <Button type="button" variant="contained" sx={{ marginLeft: 5 }} onClick={() => setNew() }>
+          Add New
+        </Button>
+        }
         </form>
       </CardContent>
     </Card>

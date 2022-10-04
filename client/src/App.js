@@ -9,7 +9,8 @@ import Container from '@mui/material/Container';
 
 function App() {
 
-  const [transactions,setTrasaction] = useState([]);
+  const [transactions,setTransaction] = useState([]);
+  const [editTransaction,setEditTransaction] = useState({});
   
   useEffect(()=>{
     getAllData();
@@ -18,7 +19,8 @@ function App() {
   async function getAllData(){
     let res = await fetch('http://localhost:4000/transaction');
     let data = await res.json();
-    setTrasaction(data.data);
+    setTransaction(data.data);
+    setEditTransaction({});
   }
 
   return (
@@ -27,10 +29,13 @@ function App() {
       <Container sx={{marginTop:5}}>
         <FormCard1 
           getAllData={getAllData}
+          editTransaction={editTransaction}
+          setEditTransaction={setEditTransaction}
         />
         <ReactTable 
           rows={transactions}
           getAllData={getAllData}
+          setEditTransaction={setEditTransaction}
         />
       </Container>
     </div>

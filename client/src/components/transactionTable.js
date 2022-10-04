@@ -102,7 +102,7 @@ TablePaginationActions.propTypes = {
 //   createData('Oreo', 437, 18.0),
 // ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
-export default function CustomPaginationActionsTable({rows,getAllData}) {
+export default function CustomPaginationActionsTable({rows,getAllData,setEditTransaction}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -175,7 +175,7 @@ export default function CustomPaginationActionsTable({rows,getAllData}) {
               { moment(row.date).format('MM/DD/YYYY') }
               </TableCell>
               <TableCell align="center">
-              <IconButton aria-label="edit" color="primary">
+              <IconButton aria-label="edit" color="primary" onClick={()=> setEditTransaction(row)}>
                 <EditSharpIcon/>
               </IconButton>
               <IconButton aria-label="delete" color="warning" onClick={()=> remove(row._id)}>
