@@ -172,7 +172,7 @@ export default function CustomPaginationActionsTable({rows,getAllData,setEditTra
                 {row.description}
               </TableCell>
               <TableCell align="center">
-              { moment(row.date).format('MM/DD/YYYY') }
+              { moment(row.date).format('Do MMM, YYYY') }
               </TableCell>
               <TableCell align="center">
               <IconButton aria-label="edit" color="primary" onClick={()=> setEditTransaction(row)}>
